@@ -28,21 +28,3 @@ jobs:
           source: ""
           target: fastapi/
 
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
-
-      - name: Deploy Docker Container
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SERVER_IP}} << 'EOF'
-          cd chat
-          docker stop chat || true && docker rm chat || true && docker rmi chat:1.0.0 || true
-          docker build -t chat:1.0.0 .
-          docker-compose up -d
-          EOF
