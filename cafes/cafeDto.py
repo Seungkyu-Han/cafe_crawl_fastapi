@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 
-from cafes.cafeEnum import Cafes
+from cafes.cafeEnum import CafeType
 
 class CafeCrawlReq(BaseModel):
-    cafeType: Cafes
+    cafeType: CafeType
     isCrawlImg: bool
 
 class CafeCrawlRes(BaseModel):
