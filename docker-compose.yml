@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  fastapi:
+    build: .
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      - seungkyu
+
+networks:
+  seungkyu:
+    driver: bridge

@@ -2,7 +2,7 @@ import cafes.cafeDto
 import cafes.cafeEnum
 from cafes.cafeDto import CafeCrawlRes
 from cafes.cafeEnum import CafeType
-import cafe_crawl.mmthcoffee
+from cafes.cafe_crawl.mmthcoffee import crawl_mmth_menus
 from http.client import HTTPException
 
 
@@ -11,7 +11,7 @@ def retrieve_menu(cafe_type: CafeType, is_crawl_img: bool) -> cafes.cafeDto.Cafe
     menus: list[tuple[str, str]]
 
     if cafe_type == CafeType.MAMMOTH:
-        menus = cafe_crawl.mmthcoffee.crawl_mmth_menus()
+        menus = crawl_mmth_menus()
 
     else:
         raise HTTPException()
