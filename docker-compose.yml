@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   fastapi:
-    build: .
+    image: seungkyu/cafe_crawl_fastapi:latest
     container_name: fastapi
     ports:
       - "8000:8000"
