@@ -9,6 +9,7 @@ class Menu(BaseModel):
     nameKr: str
     nameEn: str
     img: str
+    order: int
 
 class MenuCategory(BaseModel):
     category: str

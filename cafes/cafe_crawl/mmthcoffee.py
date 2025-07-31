@@ -10,6 +10,8 @@ headers = {
 
 def crawl_mmth_menus() -> CafeCrawlRes:
 
+    cur_order = 1
+
     data = requests.get(f'{BASE_URL}/sub/menu/list.html', headers = headers)
 
     soup = BeautifulSoup(data.text, 'html.parser')
@@ -24,7 +26,9 @@ def crawl_mmth_menus() -> CafeCrawlRes:
             name_en = li.select_one("div.txt_wrap p.eng").text.strip()
             img = li.select_one("div.img_wrap img")["src"]
 
-            menus.append(Menu(nameKr=name_kr, nameEn=name_en, img=img))
+            menus.append(Menu(nameKr=name_kr, nameEn=name_en, img=img, order=cur_order))
+
+            cur_order += 1
 
         menu_categories.append(MenuCategory(category=category, menus=menus))
 
