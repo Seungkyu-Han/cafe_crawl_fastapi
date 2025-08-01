@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from cafes.cafeDto import CafeCrawlRes, Menu, MenuCategory
+from cafes.cafeDto import CafeCrawlRes, Menu, Category, MenuCategory
 
 BASE_URL = 'https://mmthcoffee.com'
 
@@ -10,7 +10,7 @@ headers = {
 
 def crawl_mmth_menus() -> CafeCrawlRes:
 
-    cur_order = 1
+    category_cur_order = 1
 
     data = requests.get(f'{BASE_URL}/sub/menu/list.html', headers = headers)
 
@@ -21,16 +21,19 @@ def crawl_mmth_menus() -> CafeCrawlRes:
         category = cate_div.select_one("div.c_tit strong").text.strip()
         menus: list[Menu] = []
 
+        menu_cur_order = 1
+
         for li in cate_div.select("ul.clear > li"):
             name_kr = li.select_one("div.txt_wrap strong").text.strip()
             name_en = li.select_one("div.txt_wrap p.eng").text.strip()
             img = li.select_one("div.img_wrap img")["src"]
 
-            menus.append(Menu(nameKr=name_kr, nameEn=name_en, img=img, order=cur_order))
+            menus.append(Menu(nameKr=name_kr, nameEn=name_en, img=img, order=menu_cur_order))
 
-            cur_order += 1
+            menu_cur_order += 1
 
-        menu_categories.append(MenuCategory(category=category, menus=menus))
+        menu_categories.append(MenuCategory(category=Category(name = category, order = category_cur_order), menus=menus))
+        category_cur_order += 1
 
     print(menu_categories)
 
