@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from cafes.cafeEnum import CafeType
+from cafe.cafe_enum import CafeType
 
 class CafeCrawlReq(BaseModel):
     cafeType: CafeType

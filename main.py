@@ -1,12 +1,7 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 
-import cafes.cafeDto
-from cafes.cafeEnum import CafeType
-from cafes.cafeService import retrieve_menu
+from cafe import cafe_controller
 
 app = FastAPI()
 
-@app.get("/cafe")
-async def crawl_cafe_menu_api(cafe_type: CafeType = Query()) -> cafes.cafeDto.CafeCrawlRes:
-
-    return retrieve_menu(cafe_type=cafe_type)
+app.include_router(cafe_controller.router)
