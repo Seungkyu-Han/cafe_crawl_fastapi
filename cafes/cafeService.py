@@ -12,6 +12,8 @@ def retrieve_menu(cafe_type: CafeType) -> cafes.cafeDto.CafeCrawlRes:
 
     if cafe_type == CafeType.MAMMOTH:
         result = crawl_mmth_menus()
+    elif cafe_type == CafeType.MEGA:
+        result = crawl_mmth_menus()
 
     else:
         raise HTTPException()
