@@ -35,6 +35,4 @@ def crawl_mmth_menus() -> CafeCrawlRes:
         menu_categories.append(MenuCategory(category=Category(name = category, order = category_cur_order), menus=menus))
         category_cur_order += 1
 
-    print(menu_categories)
-
     return CafeCrawlRes(menuCategories=menu_categories)
