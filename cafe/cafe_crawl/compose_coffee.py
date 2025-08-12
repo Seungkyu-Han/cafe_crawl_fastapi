@@ -25,7 +25,14 @@ class ComposeCafeCrawler(CafeCrawler):
                 name = a_tag.get_text(strip=True)
                 result.append((name, href))
 
-        return result
+        seen = set()
+        unique_result = []
+        for name, href in result:
+            if href not in seen:
+                seen.add(href)
+                unique_result.append((name, href))
+
+        return unique_result
 
     def get_last_page(self, soup: BeautifulSoup) -> int:
 
@@ -70,7 +77,11 @@ class ComposeCafeCrawler(CafeCrawler):
 
                     menu_sort_order += 1
 
-                category_sort_order += 1
-                menu_categories.append(MenuCategory(category=Category(name=category_name, order=category_sort_order), menus=menus))
+            category_sort_order += 1
+            menu_categories.append(MenuCategory(category=Category(name=category_name, order=category_sort_order), menus=menus))
 
         return CafeCrawlRes(menuCategories=menu_categories)
+
+a = ComposeCafeCrawler()
+
+print(a.crawl_menu())
