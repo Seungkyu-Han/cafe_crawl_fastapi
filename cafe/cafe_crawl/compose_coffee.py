@@ -81,7 +81,3 @@ class ComposeCafeCrawler(CafeCrawler):
             menu_categories.append(MenuCategory(category=Category(name=category_name, order=category_sort_order), menus=menus))
 
         return CafeCrawlRes(menuCategories=menu_categories)
-
-a = ComposeCafeCrawler()
-
-print(a.crawl_menu())
