@@ -35,12 +35,12 @@ class MgcCafeCrawler(CafeCrawler):
     def crawl_menu(self) -> CafeCrawlRes:
         menu_categories: list[MenuCategory] = []
         category_value_map: list[tuple[int, str]] = self.get_category_value()
+        menu_sort_order = 1
 
-        for category_value, category_name in category_value_map:
-            menu_cur_order = 1
+        for category_sort_order, category_name in category_value_map:
             menus: list[Menu] = []
             for cur_page in range(1, 100):
-                res = requests.get(self.make_menu_url(category=category_value, page=cur_page), headers=self.headers)
+                res = requests.get(self.make_menu_url(category=category_sort_order, page=cur_page), headers=self.headers)
 
                 soup = BeautifulSoup(res.text, "html.parser")
 
@@ -54,11 +54,11 @@ class MgcCafeCrawler(CafeCrawler):
                     name_en = item.select_one('.cont_text_info .text1').get_text(strip=True)
                     img = item.select_one('img')['src']
 
-                    menus.append(Menu(nameKr=name_kr, nameEn=name_en, img=img, order=menu_cur_order))
+                    menus.append(Menu(nameKr=name_kr, nameEn=name_en, img=img, order=menu_sort_order))
 
-                    menu_cur_order += 1
+                    menu_sort_order += 1
 
             menu_categories.append(
-                MenuCategory(category=Category(name=category_name, order=category_value), menus=menus))
+                MenuCategory(category=Category(name=category_name, order=category_sort_order), menus=menus))
 
         return CafeCrawlRes(menuCategories=menu_categories)

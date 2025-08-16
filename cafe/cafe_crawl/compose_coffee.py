@@ -48,10 +48,9 @@ class ComposeCafeCrawler(CafeCrawler):
         category_link_map: list[tuple[str, str]] = self.category_link_mapper(f'{self.BASE_URL}/menu')
         menu_categories: list[MenuCategory] = []
         category_sort_order = 1
-
+        menu_sort_order = 1
 
         for category_name, category_url in category_link_map:
-            menu_sort_order = 1
             menus: list[Menu] = []
             res = requests.get(category_url, headers=self.headers)
             soup = BeautifulSoup(res.text, "html.parser")
@@ -77,7 +76,7 @@ class ComposeCafeCrawler(CafeCrawler):
 
                     menu_sort_order += 1
 
-            category_sort_order += 1
             menu_categories.append(MenuCategory(category=Category(name=category_name, order=category_sort_order), menus=menus))
+            category_sort_order += 1
 
         return CafeCrawlRes(menuCategories=menu_categories)

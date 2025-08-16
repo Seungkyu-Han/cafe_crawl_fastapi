@@ -13,30 +13,30 @@ class MmthCafeCrawler(CafeCrawler):
 
     def crawl_menu(self) -> CafeCrawlRes:
 
-        category_cur_order = 1
 
         data = requests.get(f'{self.BASE_URL}/sub/menu/list.html', headers=self.headers)
 
         soup = BeautifulSoup(data.text, 'html.parser')
         menu_categories: list[MenuCategory] = []
 
+        category_sort_order = 1
+        menu_sort_order = 1
+
         for cate_div in soup.select("div.cate"):
             category = cate_div.select_one("div.c_tit strong").text.strip()
             menus: list[Menu] = []
-
-            menu_cur_order = 1
 
             for li in cate_div.select("ul.clear > li"):
                 name_kr = li.select_one("div.txt_wrap strong").text.strip()
                 name_en = li.select_one("div.txt_wrap p.eng").text.strip()
                 img = li.select_one("div.img_wrap img")["src"]
 
-                menus.append(Menu(nameKr=name_kr, nameEn=name_en, img=img, order=menu_cur_order))
+                menus.append(Menu(nameKr=name_kr, nameEn=name_en, img=img, order=menu_sort_order))
 
-                menu_cur_order += 1
+                menu_sort_order += 1
 
             menu_categories.append(
-                MenuCategory(category=Category(name=category, order=category_cur_order), menus=menus))
-            category_cur_order += 1
+                MenuCategory(category=Category(name=category, order=category_sort_order), menus=menus))
+            category_sort_order += 1
 
         return CafeCrawlRes(menuCategories=menu_categories)
