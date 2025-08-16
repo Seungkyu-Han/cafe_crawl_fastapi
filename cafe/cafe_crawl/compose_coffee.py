@@ -77,7 +77,7 @@ class ComposeCafeCrawler(CafeCrawler):
 
                     menu_sort_order += 1
 
-            category_sort_order += 1
             menu_categories.append(MenuCategory(category=Category(name=category_name, order=category_sort_order), menus=menus))
+            category_sort_order += 1
 
         return CafeCrawlRes(menuCategories=menu_categories)
